@@ -18,6 +18,7 @@ class AndroidWriter
 
       segments = SegmentsListHolder.new lang
       terms.each do |term|
+        Formatter.check_lang_term(lang, term)
         key = Formatter.format(term.keyword, formatter, method(:android_key_formatter))
         translation = android_parsing term.values[lang]
         replace_placeholders(translation)

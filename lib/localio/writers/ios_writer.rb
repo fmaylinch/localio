@@ -16,6 +16,7 @@ class IosWriter
       segments = SegmentsListHolder.new lang
       constant_segments = SegmentsListHolder.new lang
       terms.each do |term|
+        Formatter.check_lang_term(lang, term)
         key = Formatter.format(term.keyword, formatter, method(:ios_key_formatter))
         translation = ios_parsing term.values[lang]
         replace_placeholders translation

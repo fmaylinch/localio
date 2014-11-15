@@ -17,4 +17,8 @@ module Formatter
         raise ArgumentError, 'Unknown formatting used. Must use :smart, :none, :camel_case or :snake_case'
     end
   end
+
+  def self.check_lang_term(lang, term)
+    raise "Missing message for key '#{term.keyword}' in language '#{lang}'" if term.values[lang].to_s.strip.length == 0
+  end
 end

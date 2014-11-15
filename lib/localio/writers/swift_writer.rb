@@ -16,6 +16,7 @@ class SwiftWriter
       segments = SegmentsListHolder.new lang
       constant_segments = SegmentsListHolder.new lang
       terms.each do |term|
+        Formatter.check_lang_term(lang, term)
         key = Formatter.format(term.keyword, formatter, method(:swift_key_formatter))
         translation = term.values[lang]
         segment = Segment.new(key, translation, lang)
