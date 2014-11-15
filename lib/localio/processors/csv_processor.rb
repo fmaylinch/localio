@@ -37,8 +37,8 @@ class CsvProcessor
     for column in 1..csv[0].length-1
       col_all = csv[first_valid_row_index][column].to_s
       col_all.each_line(' ') do |col_text|
-        default_language = col_text.downcase.gsub('*','') if col_text.include? '*'
-        languages.store col_text.downcase.gsub('*',''), column unless col_text.to_s == ''
+        default_language = col_text.gsub('*','') if col_text.include? '*'
+        languages.store col_text.gsub('*',''), column unless col_text.to_s == ''
       end
     end
 
