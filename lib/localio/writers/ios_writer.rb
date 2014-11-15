@@ -17,7 +17,8 @@ class IosWriter
       constant_segments = SegmentsListHolder.new lang
       terms.each do |term|
         key = Formatter.format(term.keyword, formatter, method(:ios_key_formatter))
-        translation = term.values[lang]
+        translation = ios_parsing term.values[lang]
+        replace_placeholders translation
         segment = Segment.new(key, translation, lang)
         segment.key = nil if term.is_comment?
         segments.segments << segment
@@ -45,8 +46,18 @@ class IosWriter
   def self.ios_key_formatter(key)
     '_'+key.space_to_underscore.strip_tag.capitalize
   end
-  
+
   def self.ios_constant_formatter(key)
-    'kLocale'+key.space_to_underscore.strip_tag.camel_case  
+    'kLocale'+key.space_to_underscore.strip_tag.camel_case
   end
+
+  def self.ios_parsing(term)
+    term.gsub('"', '\\"')
+  end
+
+  # Replaces each '{placeholder}' by '%@'
+  def self.replace_placeholders(term)
+    term.gsub!(/{[^}]+}/,'%@')
+  end
+
 end

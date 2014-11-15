@@ -10,7 +10,8 @@ class AndroidWriter
     default_language = options[:default_language]
 
     languages.keys.each do |lang|
-      output_path = File.join(path,"values-#{lang}/")
+      langQualifier = lang.gsub('-', '-r') # for country qualifier
+      output_path = File.join(path,"values-#{langQualifier}/")
       output_path = File.join(path,'values/') if default_language == lang
 
       # We have now to iterate all the terms for the current language, extract them, and store them into a new array
@@ -19,6 +20,7 @@ class AndroidWriter
       terms.each do |term|
         key = Formatter.format(term.keyword, formatter, method(:android_key_formatter))
         translation = android_parsing term.values[lang]
+        replace_placeholders(translation)
         segment = Segment.new(key, translation, lang)
         segment.key = nil if term.is_comment?
         segments.segments << segment
@@ -35,8 +37,22 @@ class AndroidWriter
   def self.android_key_formatter(key)
     key.space_to_underscore.strip_tag.downcase
   end
-  
+
   def self.android_parsing(term)
-    term.gsub('& ','&amp; ').gsub('...', '…').gsub('%@', '%s')
+    term.gsub('& ','&amp; ').gsub('...', '…').gsub('"', '\\"').gsub("'", %q(\\\')) # http://stackoverflow.com/a/10552577
   end
+
+  # Replaces each '{placeholder}' by '%N$s' where N is 1, 2, 3, etc.
+  def self.replace_placeholders(term)
+
+    i = 1
+
+    while term.index('{') do
+      placeholderStart = term.index('{')
+      placeholderEnd = term.index('}')
+      term[placeholderStart..placeholderEnd] = "%#{i}$s"
+      i += 1
+    end
+  end
+
 end
