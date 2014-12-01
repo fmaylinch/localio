@@ -36,10 +36,11 @@ class IosWriter
       puts " > #{lang.yellow}"
     end
 
-    unless constant_segments.nil?
-      TemplateHandler.process_template 'ios_constant_localizable.erb', path, 'LocalizableConstants.h', constant_segments
-      puts ' > ' + 'LocalizableConstants.h'.yellow
-    end
+# TODO: add an option to enable/disable this
+#    unless constant_segments.nil?
+#      TemplateHandler.process_template 'ios_constant_localizable.erb', path, 'LocalizableConstants.h', constant_segments
+#      puts ' > ' + 'LocalizableConstants.h'.yellow
+#    end
   end
 
   private
