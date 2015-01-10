@@ -4,6 +4,7 @@ class Segment
 
   def initialize(key, translation, language)
     @key = key
+    translation = '' if translation == '[[BLANK]]'
     @translation = translation.replace_escaped
     @language = language
   end

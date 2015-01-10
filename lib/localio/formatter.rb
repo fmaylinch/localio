@@ -1,4 +1,5 @@
 require 'localio/string_helper'
+require 'localio/missing_message'
 
 module Formatter
   def self.format(key, formatter, callback)
@@ -19,6 +20,8 @@ module Formatter
   end
 
   def self.check_lang_term(lang, term)
-    raise "Missing message for key '#{term.keyword}' in language '#{lang}'" if term.values[lang].to_s.strip.length == 0
+    if term.values[lang].to_s.strip.length == 0
+      raise MissingMessage, "Missing message for key '#{term.keyword}'"
+    end
   end
 end

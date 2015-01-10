@@ -4,21 +4,13 @@ Localio generates automatically localizable files for many platforms like Rails,
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'localio'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install localio
+    gem uninstall localio
+    gem build localio.gemspec
+    gem install --local localio-0.0.22.gem
 
 ## Usage
 
-You have to create a custom file, Locfile, similar to Rakefile or Gemfile, with some information for this to work. Also you must have some spreadsheet with a particular format, either in Google Drive or in Excel (XLS or XLSX) format.
+You have to create a custom file, Locfile, similar to Rakefile or Gemfile, with some information for this to work. Also you must have some spreadsheet with a particular format, either in CSV, Google Drive or in Excel (XLS or XLSX) format.
 
 In your Locfile directory you can then execute
 
@@ -34,7 +26,7 @@ You can also specify in the first parameter a file with another name, and it wil
 
 You will need a little spreadsheet with all the localization literals and their intended keys for internal use while coding.
 
-There is a basic example in this Google Drive link: [https://docs.google.com/spreadsheet/ccc?key=0AmX_w4-5HkOgdFFoZ19iSUlRSERnQTJ4NVZiblo2UXc&usp=sharing](https://docs.google.com/spreadsheet/ccc?key=0AmX_w4-5HkOgdFFoZ19iSUlRSERnQTJ4NVZiblo2UXc&usp=sharing). You just have to duplicate and save to your account, or download and save it as XLS file.
+There is a basic example in this Google Drive link: [https://docs.google.com/spreadsheets/d/1b5tp1KfMty_MqyBECXlzfS6t2vQAXIOZqJO51OH3BD8/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1b5tp1KfMty_MqyBECXlzfS6t2vQAXIOZqJO51OH3BD8/edit?usp=sharing). You just have to duplicate and save to your account, or download and save it as XLS file.
 
 **NOTE** Localio will only search for translations on the first worksheet of the spreadsheet. 
 
@@ -76,8 +68,22 @@ Option                      | Description                                       
 * `:rails` for Rails YAML files. The `output_path` needed is your `config/locales` directory.
 * `:json` for an easy JSON format for localizables. The `output_path` is yours to decide :)
 * `:java_properties` for .properties files used mainly in Java. Files named language_(lang).properties will be generated in `output_path`'s root directory.
+* `:play_framework` for messages files used in Play Framework. Files named messages.(lang) will be generated in `output_path`'s root directory.
 
 #### Supported sources
+
+##### CSV
+
+`source :csv` will use a local CSV file. In the parameter's hash you should specify a `:path`.
+
+Option                      | Description
+----------------------------|-------------------------------------------------------------------------
+`:path`                     | (Req.) Path for your CSV file.
+
+````ruby
+source :csv,
+       :path => 'YourCsvFileWithTranslations.csv'
+````
 
 ##### Google Drive
 

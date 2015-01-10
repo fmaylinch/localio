@@ -9,30 +9,35 @@ class SwiftWriter
 
     constant_segments = nil
     languages.keys.each do |lang|
-      output_path = File.join(path, "#{lang}.lproj/")
+      begin
+        output_path = File.join(path, "#{lang}.lproj/")
 
-      # We have now to iterate all the terms for the current language, extract them, and store them into a new array
+        # We have now to iterate all the terms for the current language, extract them, and store them into a new array
 
-      segments = SegmentsListHolder.new lang
-      constant_segments = SegmentsListHolder.new lang
-      terms.each do |term|
-        Formatter.check_lang_term(lang, term)
-        key = Formatter.format(term.keyword, formatter, method(:swift_key_formatter))
-        translation = term.values[lang]
-        segment = Segment.new(key, translation, lang)
-        segment.key = nil if term.is_comment?
-        segments.segments << segment
+        segments = SegmentsListHolder.new lang
+        constant_segments = SegmentsListHolder.new lang
+        terms.each do |term|
+          Formatter.check_lang_term(lang, term)
+          key = Formatter.format(term.keyword, formatter, method(:swift_key_formatter))
+          translation = term.values[lang]
+          segment = Segment.new(key, translation, lang)
+          segment.key = nil if term.is_comment?
+          segments.segments << segment
 
-        unless term.is_comment?
-          constant_key = swift_constant_formatter term.keyword
-          constant_value = key
-          constant_segment = Segment.new(constant_key, constant_value, lang)
-          constant_segments.segments << constant_segment
+          unless term.is_comment?
+            constant_key = swift_constant_formatter term.keyword
+            constant_value = key
+            constant_segment = Segment.new(constant_key, constant_value, lang)
+            constant_segments.segments << constant_segment
+          end
         end
-      end
 
-      TemplateHandler.process_template 'ios_localizable.erb', output_path, 'Localizable.strings', segments
-      puts " > #{lang.yellow}"
+        TemplateHandler.process_template 'ios_localizable.erb', output_path, 'Localizable.strings', segments
+        puts " > #{lang.yellow}"
+
+      rescue MissingMessage => e
+        puts " > #{lang.red} ignored: #{e.message}"
+      end
     end
 
 #   TODO: Add an option to enable/disable this

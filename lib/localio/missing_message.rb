@@ -1,0 +1,2 @@
+class MissingMessage < Exception
+end

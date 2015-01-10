@@ -4,6 +4,7 @@ require 'localio/writers/swift_writer'
 require 'localio/writers/json_writer'
 require 'localio/writers/rails_writer'
 require 'localio/writers/java_properties_writer'
+require 'localio/writers/play_framework_writer'
 
 
 module LocalizableWriter
@@ -21,6 +22,8 @@ module LocalizableWriter
         RailsWriter.write languages, terms, path, formatter, options
       when :java_properties
         JavaPropertiesWriter.write languages, terms, path, formatter, options
+      when :play_framework
+        PlayFrameworkWriter.write languages, terms, path, formatter, options
       else
         raise ArgumentError, 'Platform not supported! Current possibilities are :android, :ios, :json, :rails, :java_properties'
     end

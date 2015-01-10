@@ -10,25 +10,30 @@ class AndroidWriter
     default_language = options[:default_language]
 
     languages.keys.each do |lang|
-      langQualifier = lang.gsub('-', '-r') # for country qualifier
-      output_path = File.join(path,"values-#{langQualifier}/")
-      output_path = File.join(path,'values/') if default_language == lang
+      begin
+        langQualifier = lang.gsub('-', '-r') # for country qualifier
+        output_path = File.join(path, "values-#{langQualifier}/")
+        output_path = File.join(path, 'values/') if default_language == lang
 
-      # We have now to iterate all the terms for the current language, extract them, and store them into a new array
+        # We have now to iterate all the terms for the current language, extract them, and store them into a new array
 
-      segments = SegmentsListHolder.new lang
-      terms.each do |term|
-        Formatter.check_lang_term(lang, term)
-        key = Formatter.format(term.keyword, formatter, method(:android_key_formatter))
-        translation = android_parsing term.values[lang]
-        replace_placeholders(translation)
-        segment = Segment.new(key, translation, lang)
-        segment.key = nil if term.is_comment?
-        segments.segments << segment
+        segments = SegmentsListHolder.new lang
+        terms.each do |term|
+          Formatter.check_lang_term(lang, term)
+          key = Formatter.format(term.keyword, formatter, method(:android_key_formatter))
+          translation = android_parsing term.values[lang]
+          replace_placeholders(translation)
+          segment = Segment.new(key, translation, lang)
+          segment.key = nil if term.is_comment?
+          segments.segments << segment
+        end
+
+        TemplateHandler.process_template 'android_localizable.erb', output_path, 'strings.xml', segments
+        puts " > #{lang.yellow}"
+
+      rescue MissingMessage => e
+        puts " > #{lang.red} ignored: #{e.message}"
       end
-
-      TemplateHandler.process_template 'android_localizable.erb', output_path, 'strings.xml', segments
-      puts " > #{lang.yellow}"
     end
 
   end
