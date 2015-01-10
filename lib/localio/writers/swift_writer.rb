@@ -35,10 +35,12 @@ class SwiftWriter
       puts " > #{lang.yellow}"
     end
 
-    unless constant_segments.nil?
-      TemplateHandler.process_template 'swift_constant_localizable.erb', path, 'LocalizableConstants.swift', constant_segments
-      puts ' > ' + 'LocalizableConstants.swift'.yellow
-    end
+#   TODO: Add an option to enable/disable this
+#   unless constant_segments.nil?
+#     TemplateHandler.process_template 'swift_constant_localizable.erb', path, 'LocalizableConstants.swift', constant_segments
+#     puts ' > ' + 'LocalizableConstants.swift'.yellow
+#   end
+
   end
 
   private
