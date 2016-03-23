@@ -17,7 +17,7 @@ class JavaPropertiesWriter
         terms.each do |term|
           Formatter.check_lang_term(lang, term)
           key = Formatter.format(term.keyword, formatter, method(:java_properties_key_formatter))
-          translation = term.values[lang]
+          translation = java_properties_parsing term.values[lang]
           segment = Segment.new(key, translation, lang)
           segment.key = nil if term.is_comment?
           segments.segments << segment
@@ -36,4 +36,9 @@ class JavaPropertiesWriter
   def self.java_properties_key_formatter(key)
     key.space_to_underscore.strip_tag.downcase
   end
+
+  def self.java_properties_parsing(term)
+    term.gsub("'", %q(\\\')) # http://stackoverflow.com/a/10552577
+  end
+
 end
