@@ -38,7 +38,7 @@ class JavaPropertiesWriter
   end
 
   def self.java_properties_parsing(term)
-    term.gsub("'", %q(\\\')) # http://stackoverflow.com/a/10552577
+    term.gsub("'", "''")
   end
 
 end
