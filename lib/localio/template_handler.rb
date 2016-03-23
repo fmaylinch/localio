@@ -13,6 +13,8 @@ class TemplateHandler
     output_file.write(output)
     output_file.close
 
+    return if target_directory == '.' # No need to move file
+
     destination_path = File.join(target_directory, generated_file_name)
     FileUtils.mkdir_p(File.dirname(destination_path))
     FileUtils.cp(generated_file_name, destination_path)
