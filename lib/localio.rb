@@ -7,6 +7,9 @@ require 'localio/filter'
 module Localio
 
   def self.from_cmdline(args)
+
+    puts "Localio #{Localio::VERSION}"
+
     if ARGV.empty?
       if File.exist? 'Locfile'
         process_locfile('Locfile')
