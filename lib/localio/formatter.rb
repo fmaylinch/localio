@@ -21,7 +21,7 @@ module Formatter
 
   def self.check_lang_term(lang, term)
     if term.values[lang].to_s.strip.length == 0
-      raise MissingMessage, "Missing translation for key '#{term.keyword}'. Put '[[BLANK]]' if you really want to leave it blank."
+      raise MissingMessage, "Missing translation for key '#{term.keyword}'. Write '[[BLANK]]' to output a key with blank message, or '[[IGNORE]]' to ignore key/message."
     end
   end
 end

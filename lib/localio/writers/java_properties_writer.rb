@@ -19,6 +19,7 @@ class JavaPropertiesWriter
           key = Formatter.format(term.keyword, formatter, method(:java_properties_key_formatter))
           translation = java_properties_parsing term.values[lang]
           segment = Segment.new(key, translation, lang)
+          next if segment.ignore?
           segment.key = nil if term.is_comment?
           segments.segments << segment
         end

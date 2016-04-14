@@ -6,7 +6,7 @@ Localio generates automatically localizable files for many platforms like Rails,
 
     gem uninstall localio
     gem build localio.gemspec
-    gem install --local localio-0.0.22.gem
+    gem install --local localio-0.5.gem
 
 ## Usage
 
@@ -14,9 +14,8 @@ You have to create a custom file, Locfile, similar to Rakefile or Gemfile, with 
 
 In your Locfile directory you can then execute
 
-````
-localize
-````
+    localize
+
 
 and your localizable files will be created with the parameters specified in the Locfile. 
 

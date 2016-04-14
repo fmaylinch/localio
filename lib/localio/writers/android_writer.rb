@@ -24,6 +24,7 @@ class AndroidWriter
           translation = android_parsing term.values[lang]
           replace_placeholders(translation)
           segment = Segment.new(key, translation, lang)
+          next if segment.ignore?
           segment.key = nil if term.is_comment?
           segments.segments << segment
         end

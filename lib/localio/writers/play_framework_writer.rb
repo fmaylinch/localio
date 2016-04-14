@@ -21,6 +21,7 @@ class PlayFrameworkWriter
           key = Formatter.format(term.keyword, formatter, method(:play_framework_key_formatter))
           translation = play_framework_parsing term.values[lang]
           segment = Segment.new(key, translation, lang)
+          next if segment.ignore?
           segment.key = nil if term.is_comment?
           segments.segments << segment
         end

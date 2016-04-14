@@ -19,6 +19,7 @@ class RailsWriter
           key = Formatter.format(term.keyword, formatter, method(:rails_key_formatter))
           translation = term.values[lang]
           segment = Segment.new(key, translation, lang)
+          next if segment.ignore?
           segment.key = nil if term.is_comment?
           segments.segments << segment
         end
