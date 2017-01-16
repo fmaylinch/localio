@@ -2,11 +2,24 @@
 
 Localio generates automatically localizable files for many platforms like Rails, Android, iOS, Java .properties files and JSON files using a centralized spreadsheet as source. The spreadsheet can be in Google Drive or a simple local Excel file.
 
+## Prepare Ruby
+
+I've had problems with default Ruby in Mac.
+I recommend installing Ruby `2.0.0-p247`, for example via [rbenv](https://github.com/rbenv/rbenv).
+Make sure you're using that version: `ruby -v`.
+
+
 ## Installation
 
     gem uninstall localio
     gem build localio.gemspec
     gem install --local localio-0.5.gem
+
+If it complains about missing gems try using bundler (from `rbenv` doc) and then retry the previous commands.
+
+    gem install bundler
+    bundle install
+    
 
 ## Usage
 
